@@ -1,0 +1,11 @@
+#!/bin/bash
+
+set -e
+cd $(dirname "$0")
+gradle run && clear
+as "code.s" -o "code.o"
+ld "code.o" -o "code"
+
+set +e
+"./code"
+echo -e "\nExit code: $?"

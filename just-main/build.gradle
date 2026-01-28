@@ -1,0 +1,20 @@
+plugins {
+    id 'application'
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation project(':just-core')
+    implementation project(':just-impl')
+}
+
+tasks.test {
+    useJUnitPlatform()
+}
+
+application {
+    mainClass = 'io.ai.just.Main'
+}

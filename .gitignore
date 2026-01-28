@@ -1,2 +1,5 @@
 .gradle/
 build/
+code.s
+code.o
+code

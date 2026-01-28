@@ -1,0 +1,4 @@
+rootProject.name = 'just'
+include('just-main')
+include('just-core')
+include('just-impl')
