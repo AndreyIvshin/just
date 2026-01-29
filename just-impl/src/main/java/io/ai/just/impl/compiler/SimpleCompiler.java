@@ -1,8 +1,10 @@
 package io.ai.just.impl.compiler;
 
-public class SimpleCompiler implements io.ai.just.core.service.Compiler<String> {
+import io.ai.just.core.service.Compiler;
+
+public class SimpleCompiler implements Compiler<String> {
     @Override
     public void compile(final String code) {
-        throw new IllegalStateException("Not implemented yet");
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 }
