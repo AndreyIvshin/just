@@ -1,32 +1,28 @@
-package io.ai.just.impl.compiler.dsl;
+package io.ai.just.impl.dsl;
 
-import io.ai.just.core.service.Compiler;
+import io.ai.just.core.App;
+import io.ai.just.core.Compiler;
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.function.Consumer;
-import java.util.function.Supplier;
+import java.util.List;
+import java.util.Map;
 
 import static java.util.Comparator.reverseOrder;
 
-public class DslCompiler implements Compiler<Consumer<DslApp>> {
+public class DslCompiler implements Compiler<Integer, App<Map<String, List<String>>, ?>> {
     private final String folder;
-    private final Supplier<DslApp> appGen;
 
-    public DslCompiler(final String folder, final Supplier<DslApp> appGen) {
+    public DslCompiler(final String folder) {
         this.folder = folder;
-        this.appGen = appGen;
     }
 
-    @Override
-    public void compile(final Consumer<DslApp> scope) {
+    public Integer compile(final App<Map<String, List<String>>, ?> app) {
         rmdir();
-        final var app = appGen.get();
-        scope.accept(app);
-        final var files = app.get().entrySet();
+        final var files = app.compile().entrySet();
         for (final var file : files) {
-            final var path = Paths.get(folder + "/" + file.getKey());
+            final var path = Paths.get(folder + "/" + file.getKey().replace(".just", ".s"));
             try {
                 Files.createDirectories(path.getParent());
                 Files.write(path, file.getValue());
@@ -34,6 +30,7 @@ public class DslCompiler implements Compiler<Consumer<DslApp>> {
                 throw new RuntimeException(e);
             }
         }
+        return files.size();
     }
 
     private void rmdir() {

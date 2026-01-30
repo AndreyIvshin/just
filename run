@@ -3,9 +3,9 @@
 set -e
 cd $(dirname "$0")
 gradle run && clear
-as "out/code.s" -o "out/code.o"
-ld "out/code.o" -o "out/code"
+as "out/main.s" -o "out/main.o"
+ld "out/main.o" -o "out/main"
 
 set +e
-"./out/code"
+"./out/main"
 echo -e "\nExit code: $?"
