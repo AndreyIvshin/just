@@ -52,15 +52,8 @@ public class DslFile implements File<List<String>, Data<List<String>>, Port<List
 
     @Override
     public List<String> compile() {
-        return impls.entrySet().stream()
-            .map(e -> {
-                final var lines = new ArrayList<String>();
-                lines.add(0, "# impl " + e.getKey() + " {");
-                lines.addAll(e.getValue().compile());
-                lines.add("# }");
-                lines.add("");
-                return lines;
-            })
+        return impls.values().stream()
+            .map(Impl::compile)
             .flatMap(List::stream)
             .toList();
     }

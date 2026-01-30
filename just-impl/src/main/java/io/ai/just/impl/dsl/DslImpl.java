@@ -28,10 +28,14 @@ public class DslImpl implements Impl<List<String>, Func<List<String>>> {
     public List<String> compile() {
         return funcs.entrySet().stream()
             .map(e -> {
-                final var lines = new ArrayList<String>();
+                final var func = e.getValue();
+                final var lines = new ArrayList<>(List.of(".section .data"));
+                lines.addAll(func.data());
+                lines.add("");
+                lines.add(".section .text");
                 lines.add(".global " + e.getKey());
                 lines.add(e.getKey() + ":");
-                e.getValue().compile().forEach(line -> lines.add("   " + line));
+                func.text().forEach(line -> lines.add("   " + line));
                 lines.add("");
                 return lines;
             })
